@@ -9,7 +9,7 @@
     <form:form method="post" action="/category/add" modelAttribute="category">
         <form:input path="name"/>
         <form:textarea path="description"/>
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Register"/>
     </form:form>
 </body>
 </html>

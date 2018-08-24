@@ -3,17 +3,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>All categories</title>
+    <title>Twitter</title>
 </head>
 <body>
+<c:if test="${not empty success}">
+    <h1> ${success}</h1>
+</c:if>
 
-<ul>
-    <li>
-        <a href="<c:url value="/category/list"/>"> Categories </a>
-    </li>
-    <li>
-        <a href="<c:url value="/author/list"/>">Authors</a>
-    </li>
-</ul>
+<a href="/user/register" class="btn"> Register </a>
 </body>
 </html>
