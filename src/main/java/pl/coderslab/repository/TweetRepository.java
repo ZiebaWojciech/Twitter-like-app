@@ -1,8 +1,18 @@
 package pl.coderslab.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import pl.coderslab.entity.Tweet;
 import pl.coderslab.entity.User;
 
-public interface TweetRepository extends JpaRepository<User, Integer> {
-    User findByUsername(String username);
+import java.util.List;
+
+public interface TweetRepository extends JpaRepository<Tweet, Integer> {
+//    List<Tweet> findAllByUser();
+//
+//    @Query("SELECT tweet FROM Tweet tweet WHERE tweet.user.id = :id")
+//    List<Tweet> findAllByUserId(@Param("id") Integer id);
+
+    List<Tweet> findFirst20ByOrderByCreatedDesc();
 }

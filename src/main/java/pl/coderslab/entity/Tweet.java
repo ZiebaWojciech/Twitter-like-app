@@ -14,7 +14,6 @@ public class Tweet {
     private Integer id;
 
     @ManyToOne
-    @NotNull
     private User user;
 
     @NotNull
