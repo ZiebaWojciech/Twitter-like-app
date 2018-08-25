@@ -21,7 +21,6 @@ public class User {
     @Email
     private String email;
 
-    @NotNull
     Boolean enabled;
 
     public User() {
@@ -35,11 +34,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

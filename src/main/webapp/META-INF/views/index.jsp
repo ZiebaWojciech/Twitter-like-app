@@ -6,10 +6,9 @@
     <title>Twitter</title>
 </head>
 <body>
-<c:if test="${not empty success}">
-    <h1> ${success}</h1>
-</c:if>
+<h1> Twitter</h1>
 
-<a href="/user/register" class="btn"> Register </a>
+
+<a href="/user/login" class="btn"> Login </a>
 </body>
 </html>
