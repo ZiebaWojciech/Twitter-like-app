@@ -27,33 +27,16 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView registerUserForm() {
-        return new ModelAndView("form/register", "user", new User());
-    }
 
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser(Model model, @Valid User newUser, BindingResult result) {
-        if (result.hasErrors()) {
-            return "/form/register";
-        }
-        newUser.setPassword(userService.hashPassword(newUser.getPassword()));
-        userRepository.save(newUser);
-        model.addAttribute("registrationSuccess", "Registration successfully completed. You can log in now");
-        return "/form/login";
-    }
-
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView userLogout(HttpSession session, @RequestParam String username, @RequestParam String password) {
-        session.removeAttribute("loggedUser");
-        return new ModelAndView("index", "logoutSuccess", "You've logged out successfully. See you soon!");
-    }
 
     @RequestMapping(value = "/panel", method = RequestMethod.GET)
     public ModelAndView userPanel(@SessionAttribute("loggedUser") User loggedUser) {
         return new ModelAndView("userPanel", "userTweets", tweetRepository.findAllByUser(loggedUser));
+    }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView homepage() {
+        return new ModelAndView("index", "tweets", tweetRepository.findFirst20ByOrderByCreatedDesc());
     }
 }
 

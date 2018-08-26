@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "UserFilter", urlPatterns = {"/user/*","/tweet/*"})
+@WebFilter(filterName = "UserFilter", urlPatterns = {"/user/*","/tweet/*", "/comment/*", "/message/*"})
 public class UserFilter implements Filter {
     public void destroy() {
     }

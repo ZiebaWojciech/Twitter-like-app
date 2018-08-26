@@ -8,7 +8,7 @@
 <body>
 
 <%--@elvariable id="user" type="pl.coderslab.entity.User"--%>
-<form:form method="post" action="/user/register" modelAttribute="user">
+<form:form method="post" action="/register" modelAttribute="user">
     <form:errors path="*"/>
     <table>
         <tr>

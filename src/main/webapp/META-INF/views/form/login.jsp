@@ -18,6 +18,7 @@
 <form method="post" action="/login">
 
     <table>
+
         <tr>
             <td> Username:</td>
             <td><input type="text" name="username"/></td>
@@ -36,6 +37,6 @@
 </form>
 
 
-<a href="/user/register" class="btn"> Register </a>
+<a href="/register" class="btn"> Register </a>
 </body>
 </html>

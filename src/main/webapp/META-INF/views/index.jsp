@@ -42,7 +42,9 @@
 </table>
 <a href="/tweet/add" class="btn"> Add new tweet </a>
 <br/>
-<a href="/user/login" class="btn"> Login </a>
+<a href="/message/inbox" class="btn">Inbox</a>
+<br/>
+<a href="/login" class="btn"> Login </a>
 <br/>
 <a href="/user/panel" class="btn"> User Panel </a>
 </body>
