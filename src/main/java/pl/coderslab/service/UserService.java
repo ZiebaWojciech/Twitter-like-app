@@ -2,6 +2,7 @@ package pl.coderslab.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.entity.User;
 
@@ -14,5 +15,4 @@ public class UserService {
     public boolean checkPassword(String passwordToCheck, User userToValidate) {
         return BCrypt.checkpw(passwordToCheck, userToValidate.getPassword());
     }
-
 }

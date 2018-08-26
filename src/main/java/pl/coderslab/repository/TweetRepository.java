@@ -9,7 +9,7 @@ import pl.coderslab.entity.User;
 import java.util.List;
 
 public interface TweetRepository extends JpaRepository<Tweet, Integer> {
-//    List<Tweet> findAllByUser();
+    List<Tweet> findAllByUser(User user);
 //
 //    @Query("SELECT tweet FROM Tweet tweet WHERE tweet.user.id = :id")
 //    List<Tweet> findAllByUserId(@Param("id") Integer id);
