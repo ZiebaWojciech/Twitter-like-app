@@ -15,7 +15,7 @@
 <c:if test="${not empty loginFailure}">
     <h1> ${loginFailure}</h1>
 </c:if>
-<form method="post" action="/user/login">
+<form method="post" action="/login">
 
     <table>
         <tr>

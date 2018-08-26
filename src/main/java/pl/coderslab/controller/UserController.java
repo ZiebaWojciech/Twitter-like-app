@@ -44,23 +44,6 @@ public class UserController {
         return "/form/login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginUser() {
-        return "/form/login";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView loginUser(HttpSession session, @RequestParam String username, @RequestParam String password) {
-        User userToCheck = userRepository.findByUsername(username);
-        if (userToCheck != null) {
-            if (userService.checkPassword(password, userToCheck)) {
-                session.setAttribute("loggedUser", userToCheck);
-                return new ModelAndView("redirect:/", "loginSuccess", "You've logged in successfully. Have fun!");
-            }
-            //TODO different view for login/logout/registration success?
-        }
-        return new ModelAndView("/form/login", "loginFailure", "Something went wrong. Try again");
-    }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView userLogout(HttpSession session, @RequestParam String username, @RequestParam String password) {
