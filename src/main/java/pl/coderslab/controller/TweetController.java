@@ -21,7 +21,6 @@ import javax.validation.Valid;
 
 
 @Controller
-@PreAuthorize("hasRole('ROLE_USER')")
 @RequestMapping("/tweet")
 public class TweetController {
     @Autowired
@@ -30,27 +29,23 @@ public class TweetController {
     @Autowired
     CommentRepository commentRepository;
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView tweetAddForm() {
-        return new ModelAndView("form/addTweet", "tweet", new Tweet());
-    }
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView tweetAdd(@Valid Tweet tweet, BindingResult result, @SessionAttribute("loggedUser") User user) {
-        if(result.hasErrors()){
-            return new ModelAndView("form/addTweet");
+        ModelAndView modelAndView = new ModelAndView();
+        if (result.hasErrors()) {
+            return new ModelAndView("homepage", "allTweets", tweetRepository.findAllByOrderByCreatedDesc());
         }
-        tweet.setUser(user);
+//        tweet.setUser(user);
         tweetRepository.save(tweet);
         return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
-    public ModelAndView tweetDetails(@PathVariable Integer id){
+    public ModelAndView tweetDetails(@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("tweet", tweetRepository.getOne(id));
         modelAndView.addObject("comments", commentRepository.findAllByCommentedTweetIdOrderByCreatedDesc(id));
-        modelAndView.addObject("newComment", new Comment());
+        modelAndView.addObject("comment", new Comment());
         modelAndView.setViewName("tweetDetails");
         return modelAndView;
     }

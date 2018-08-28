@@ -23,18 +23,18 @@ import javax.validation.Valid;
 public class CommentController {
     @Autowired
     CommentRepository commentRepository;
-
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView addCommentForm() {
-        return new ModelAndView("form/addComment", "comment", new Comment());
-    }
+    @Autowired
+    TweetRepository tweetRepository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addComment(@Valid Comment comment, BindingResult result, @SessionAttribute("loggedUser") User user) {
+        ModelAndView modelAndView = new ModelAndView();
         if(result.hasErrors()){
-            return new ModelAndView("tweetDetails");
+            modelAndView.addObject("tweet", tweetRepository.getOne(comment.getCommentedTweet().getId()));
+            modelAndView.addObject("comments", commentRepository.findAllByCommentedTweetIdOrderByCreatedDesc(comment.getCommentedTweet().getId()));
+            modelAndView.setViewName("tweetDetails");
+            return modelAndView;
         }
-        comment.setAuthor(user);
         commentRepository.save(comment);
         return new ModelAndView("redirect:/tweet/details/"+comment.getCommentedTweet().getId());
     }

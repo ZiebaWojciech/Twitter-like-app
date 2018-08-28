@@ -45,9 +45,12 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView homepage() {
-        return new ModelAndView("index", "tweets", tweetRepository.findFirst20ByOrderByCreatedDesc());
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView userLogout(HttpSession session) {
+        session.removeAttribute("loggedUser");
+        return new ModelAndView("redirect:/");
     }
+
+
 }
 

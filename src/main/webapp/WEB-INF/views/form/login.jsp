@@ -1,42 +1,25 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Twitter</title>
-</head>
-<body>
-<c:if test="${not empty registrationSuccess}">
-    <h1> ${registrationSuccess}</h1>
-</c:if>
-<c:if test="${not empty loginSuccess}">
-    <h1> ${loginSuccess}</h1>
-</c:if>
-<c:if test="${not empty loginFailure}">
-    <h1> ${loginFailure}</h1>
-</c:if>
-<form method="post" action="/login">
+<%@include file="/WEB-INF/fragments/header.jsp" %>
+<link href="/resources/bootstrap/signin.css" rel="stylesheet">
 
-    <table>
+<body class="text-center">
+<form class="form-signin" method="post" action="/login">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputUsername" class="sr-only">Email address</label>
 
-        <tr>
-            <td> Username:</td>
-            <td><input type="text" name="username"/></td>
-        </tr>
-        <tr>
-            <td> Password</td>
-            <td><input type="password" name="password"/></td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value="Login"/>
-            </td>
-        </tr>
-    </table>
+    <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <%--<div class="checkbox mb-3">--%>
+        <%--<label>--%>
+            <%--<input type="checkbox" value="remember-me"> Remember me--%>
+        <%--</label>--%>
+    <%--</div>--%>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">Don't have account yet? <a href="/register"> Sign up </a> </p>
 
 </form>
-
-
-<a href="/register" class="btn"> Register </a>
-</body>
-</html>
+<%@include file="/WEB-INF/fragments/footer.jsp" %>

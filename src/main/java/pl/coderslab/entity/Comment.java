@@ -12,10 +12,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @OneToOne
     private User author;
 
-    @OneToOne
+    @ManyToOne
     private Tweet commentedTweet;
 
     @CreationTimestamp

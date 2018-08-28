@@ -4,15 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.coderslab.entity.Tweet;
 import pl.coderslab.entity.User;
 import pl.coderslab.repository.TweetRepository;
 import pl.coderslab.repository.UserRepository;
 import pl.coderslab.service.UserService;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -28,10 +29,19 @@ public class HomepageController {
     UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView homepage() {
-        return new ModelAndView("index", "tweets", tweetRepository.findFirst20ByOrderByCreatedDesc());
+    public ModelAndView homepage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser != null) {
+            modelAndView.setViewName("homepage");
+            modelAndView.addObject("allTweets", tweetRepository.findAllByOrderByCreatedDesc());
+            modelAndView.addObject("tweet", new Tweet());
+        } else {
+            modelAndView.setViewName("index");
+        }
+        return modelAndView;
+
     }
-    //TODO rethink on what an index for not logged user should look like
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView registerUserForm() {
@@ -50,11 +60,6 @@ public class HomepageController {
         return "/form/login";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView userLogout(HttpSession session) {
-        session.removeAttribute("loggedUser");
-        return new ModelAndView("success", "logoutSuccess", "You've logged out successfully. See you soon!");
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginUser() {
@@ -67,7 +72,7 @@ public class HomepageController {
         if (userToCheck != null) {
             if (userService.checkPassword(password, userToCheck)) {
                 session.setAttribute("loggedUser", userToCheck);
-                return new ModelAndView("success", "loginSuccess", "You've logged in successfully. Have fun!");
+                return new ModelAndView("redirect:/");
             }
             //TODO different view for login/logout/registration success?
         }

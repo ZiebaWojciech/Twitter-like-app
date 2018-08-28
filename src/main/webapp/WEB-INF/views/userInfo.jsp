@@ -1,21 +1,31 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Twitter</title>
-</head>
-<body>
-<h1> User info</h1>
-<c:if test="${not empty loggedUser}">
-    <h1> Hello ${loggedUser.username}</h1>
-</c:if>
-
-<h1>${user.username}</h1>
-<c:if test="${loggedUser.id != user.id}">
-    <h2><a href="/message/${user.id}/new">Send message</a></h2>
-
-</c:if>
+<%@include file="/WEB-INF/fragments/header.jsp" %>
+<h1>User ${user.username}
+    <c:if test="${loggedUser.id != user.id}">
+        <button type="button" class="btn btn-primary" href="/message/${user.id}/new"> Send message</button>
+    </c:if>
+</h1>
+<main role="main">
+    <div class="jumbotron">
+        <div class="container">
+            <!-- Example row of columns -->
+            <div class="row">
+                <%--@elvariable id="tweet" type="pl.coderslab.entity.Tweet"--%>
+                <c:forEach items="${userTweets}" var="tweet">
+                    <div class="col-md-4 alert alert-dark" style="word-break: break-all">
+                        <h2>${tweet.text}</h2>
+                        <p>Created: <em>${tweet.created.toGMTString()}</em></p>
+                        <p>Comments (${tweet.comments.size()})   <a class="btn btn-secondary" href="/tweet/details/${tweet.id}" role="button">View details
+                            &raquo;</a></p>
+                    </div>
+                </c:forEach>
+            </div>
+            <hr>
+        </div>
+    </div> <!-- /container -->
+</main>
 <table>
     <tr>
         <th>Tweet</th>
@@ -35,6 +45,5 @@
 </table>
 <a href="/tweet/add" class="btn"> Add new tweet </a>
 
-<a href="/user/login" class="btn"> Login </a>
-</body>
-</html>
+<%@include file="/WEB-INF/fragments/footer.jsp" %>
+
