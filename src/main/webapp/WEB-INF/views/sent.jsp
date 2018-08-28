@@ -3,12 +3,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/WEB-INF/fragments/header.jsp" %>
 <hr>
-<div class="btn-group">
-    <a href="/message/inbox" class="btn  btn-dark"><span data-feather="inbox"></span> Inbox
-    </a>
-    <a href="/message/sent" class="btn  btn-dark"><span data-feather="send"></span> Sent
-    </a>
-</div>
+    <div class="btn-group">
+        <a href="/message/inbox" class="btn  btn-dark"><span data-feather="inbox"></span> Inbox
+        </a>
+        <a href="/message/sent" class="btn  btn-dark"><span data-feather="send"></span> Sent
+        </a>
+    </div>
 
 <table class="table-striped" width="100%">
     <tr>
@@ -26,7 +26,7 @@
         </th>
     </tr>
     <%--@elvariable id="message" type="pl.coderslab.entity.Message"--%>
-    <c:forEach items="${receivedMessages}" var="message">
+    <c:forEach items="${sentMessages}" var="message">
         <c:choose>
             <c:when test="${message.read == false}">
                 <tr style="font-weight: bold">

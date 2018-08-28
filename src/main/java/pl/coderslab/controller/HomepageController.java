@@ -50,14 +50,13 @@ public class HomepageController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser(Model model, @Valid User newUser, BindingResult result) {
+    public String registerUser(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "/form/register";
         }
-        newUser.setPassword(userService.hashPassword(newUser.getPassword()));
-        userRepository.save(newUser);
-        model.addAttribute("registrationSuccess", "Registration successfully completed. You can log in now");
-        return "/form/login";
+        user.setPassword(userService.hashPassword(user.getPassword()));
+        userRepository.save(user);
+        return "redirect:/login";
     }
 
 

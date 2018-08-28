@@ -53,7 +53,7 @@ public class MessageController {
     public ModelAndView sendMessageForm(@PathVariable Integer id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/form/message");
-        modelAndView.addObject("message", new Message());
+        modelAndView.addObject("messageToSend", new Message());
         modelAndView.addObject("receiver", userRepository.getOne(id));
         return modelAndView;
     }
@@ -73,8 +73,10 @@ public class MessageController {
     public ModelAndView showMessage(@SessionAttribute("loggedUser") User loggedUser,
                                     @PathVariable Integer id){
         Message message = messageRepository.getOne(id);
-        message.setRead(true);
-        messageRepository.save(message);
+        if(loggedUser.getId() != message.getSender().getId()){
+            message.setRead(true);
+            messageRepository.save(message);
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("message", message);
         modelAndView.addObject("reply", new Message());
