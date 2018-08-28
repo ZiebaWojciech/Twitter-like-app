@@ -11,8 +11,8 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<Tweet, Integer> {
     List<Tweet> findAllByUser(User user);
 //
-//    @Query("SELECT tweet FROM Tweet tweet WHERE tweet.user.id = :id")
-//    List<Tweet> findAllByUserId(@Param("id") Integer id);
+    @Query("SELECT tweet FROM Tweet tweet WHERE tweet.user.id = :id")
+    List<Tweet> findAllByUserId(@Param("id") Integer id);
 
     List<Tweet> findFirst20ByOrderByCreatedDesc();
 }

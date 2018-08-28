@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.coderslab.entity.Message;
 import pl.coderslab.entity.User;
 import pl.coderslab.repository.TweetRepository;
 import pl.coderslab.repository.UserRepository;
@@ -32,6 +33,16 @@ public class UserController {
     @RequestMapping(value = "/panel", method = RequestMethod.GET)
     public ModelAndView userPanel(@SessionAttribute("loggedUser") User loggedUser) {
         return new ModelAndView("userPanel", "userTweets", tweetRepository.findAllByUser(loggedUser));
+    }
+
+    @RequestMapping(value = "/{id}/info", method = RequestMethod.GET)
+    public ModelAndView userInfo(@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("userInfo");
+        modelAndView.addObject("user",userRepository.getOne(id));
+        modelAndView.addObject("userTweets",tweetRepository.findAllByUserId(id));
+        modelAndView.addObject("message",new Message());
+        return modelAndView;
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)

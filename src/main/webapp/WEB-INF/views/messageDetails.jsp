@@ -9,7 +9,6 @@
 <a href="/"> Homepage </a>
 <h1> Message details</h1>
 <%--@elvariable id="message" type="pl.coderslab.entity.Message"--%>
-
 <table>
     <tr>
         <td style="background-color: antiquewhite" colspan="2">
@@ -36,8 +35,8 @@
     <form:hidden path="receiver" value="${message.sender.id}"/>
     <table>
         <tr>
-            <td> To:</td>
-            <td> ${message.sender.id} </td>
+            <td> Reply to:</td>
+            <td> ${message.sender.username} </td>
         </tr>
         <tr>
             <td> Title:</td>

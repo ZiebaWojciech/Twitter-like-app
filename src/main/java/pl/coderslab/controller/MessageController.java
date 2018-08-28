@@ -1,6 +1,8 @@
 package pl.coderslab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,10 +38,9 @@ public class MessageController {
     @RequestMapping(value = "/inbox", method = RequestMethod.GET)
     public ModelAndView inbox(@SessionAttribute("loggedUser") User loggedUser) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("inbox");
         modelAndView.addObject("receivedMessages", messageRepository.findAllByReceiver(loggedUser));
         modelAndView.addObject("receivers", userRepository.findAllExceptLogged(loggedUser));
-        modelAndView.addObject("message", new Message());
+        modelAndView.setViewName("inbox");
         return modelAndView;
     }
 
@@ -48,15 +49,23 @@ public class MessageController {
         return new ModelAndView("sent", "sentMessages", messageRepository.findAllBySender(loggedUser));
     }
 
+    @RequestMapping(value = "/{id}/new", method = RequestMethod.GET)
+    public ModelAndView sendMessageForm(@PathVariable Integer id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/form/message");
+        modelAndView.addObject("message", new Message());
+        modelAndView.addObject("receiver", userRepository.getOne(id));
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public ModelAndView sendMessage(@Valid Message message, BindingResult result,
                                     @SessionAttribute("loggedUser") User loggedUser){
         if(result.hasErrors()){
-            return new ModelAndView("inbox");
+            return new ModelAndView("/form/message");
         }
-        message.setSender(loggedUser);
         messageRepository.save(message);
-        return new ModelAndView("inbox");
+        return new ModelAndView("redirect:inbox");
     }
 
 
@@ -65,7 +74,12 @@ public class MessageController {
                                     @PathVariable Integer id){
         Message message = messageRepository.getOne(id);
         message.setRead(true);
-        return new ModelAndView("messageDetails", "message", message);
+        messageRepository.save(message);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("message", message);
+        modelAndView.addObject("reply", new Message());
+        modelAndView.setViewName("messageDetails");
+        return modelAndView;
     }
 
 }

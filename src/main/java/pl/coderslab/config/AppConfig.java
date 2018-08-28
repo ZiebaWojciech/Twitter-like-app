@@ -13,10 +13,12 @@ import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pl.coderslab.converter.TweetConverter;
+import pl.coderslab.converter.UserConverter;
 
 import javax.persistence.EntityManagerFactory;
 import javax.validation.Validator;
@@ -53,30 +55,26 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/META-INF/views/");
+        viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
 
-//    @Bean
-//    public DataSource dataSource(){
-//        return new
-//    }
-
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(getTweetConverter());
+        registry.addConverter(getUserConverter());
     }
 
     @Bean
     public TweetConverter getTweetConverter() {
         return new TweetConverter();
     }
-//
-//    @Bean
-//    public AuthorConverter getAuthorConverter() {
-//        return new AuthorConverter();
-//    }
+
+    @Bean
+    public UserConverter getUserConverter() {
+        return new UserConverter();
+    }
 
     @Bean(name = "localeResolver")
     public LocaleContextResolver getLocaleContextResolver() {
@@ -88,6 +86,13 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public Validator validator() {
         return new LocalValidatorFactoryBean();
+    }
+
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
     }
 }
 

@@ -50,12 +50,12 @@ public class HomepageController {
         return "/form/login";
     }
 
-
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView userLogout(HttpSession session, @RequestParam String username, @RequestParam String password) {
+    public ModelAndView userLogout(HttpSession session) {
         session.removeAttribute("loggedUser");
-        return new ModelAndView("index", "logoutSuccess", "You've logged out successfully. See you soon!");
+        return new ModelAndView("success", "logoutSuccess", "You've logged out successfully. See you soon!");
     }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginUser() {
         return "/form/login";
@@ -67,7 +67,7 @@ public class HomepageController {
         if (userToCheck != null) {
             if (userService.checkPassword(password, userToCheck)) {
                 session.setAttribute("loggedUser", userToCheck);
-                return new ModelAndView("redirect:/", "loginSuccess", "You've logged in successfully. Have fun!");
+                return new ModelAndView("success", "loginSuccess", "You've logged in successfully. Have fun!");
             }
             //TODO different view for login/logout/registration success?
         }
