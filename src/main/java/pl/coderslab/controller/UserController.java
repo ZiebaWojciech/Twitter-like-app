@@ -2,6 +2,7 @@ package pl.coderslab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.coderslab.entity.Message;
@@ -11,6 +12,7 @@ import pl.coderslab.repository.UserRepository;
 import pl.coderslab.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 
 @Controller
@@ -41,44 +43,60 @@ public class UserController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView userPanel() {
+    public ModelAndView userPanel(@SessionAttribute("loggedUser") User loggedUser) {
         return new ModelAndView("userEditPanel");
+    }
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    public ModelAndView changePasswordForm() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/form/changePassword");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     public ModelAndView changePassword(@RequestParam("oldPassword") String oldPassword,
                                        @RequestParam("newPassword") String newPassword,
                                        @RequestParam("newPasswordRepeated") String newPasswordRepeated,
-                                       @SessionAttribute("loggedUser") User loggedUser) {
+                                       @SessionAttribute("loggedUser") User loggedUser,
+                                       HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("userEditPanel");
         if (userService.checkPassword(oldPassword, loggedUser)) {
             if (newPassword.equals(newPasswordRepeated)) {
                 loggedUser.setPassword(userService.hashPassword(newPassword));
+                session.setAttribute("loggedUser", loggedUser);
                 userRepository.save(loggedUser);
+                modelAndView.setViewName("userEditPanel");
                 modelAndView.addObject("passwordChangeMessage", "Password changed");
             } else {
+                modelAndView.setViewName("/form/changePassword");
                 modelAndView.addObject("passwordChangeMessage", "New password doesn't match");
             }
         } else {
+            modelAndView.setViewName("/form/changePassword");
             modelAndView.addObject("passwordChangeMessage", "Wrong old password");
         }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/changeEmail", method = RequestMethod.POST)
-    public ModelAndView changePassword(@RequestParam("newEmail") String newEmail,
-                                       @RequestParam("newEmailRepeated") String newEmailRepeated,
-                                       @SessionAttribute("loggedUser") User loggedUser) {
+    @RequestMapping(value = "/changeEmail", method = RequestMethod.GET)
+    public ModelAndView changeEmailForm(@SessionAttribute("loggedUser") User loggedUser) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("userEditPanel");
-        if (newEmail.equals(newEmailRepeated)) {
-            loggedUser.setEmail(newEmail);
-            userRepository.save(loggedUser);
-            modelAndView.addObject("emailChangeMessage", "E-mail changed");
-        } else {
-            modelAndView.addObject("emailChangeMessage", "E-mails doesn't match");
+        modelAndView.setViewName("/form/changeEmail");
+        modelAndView.addObject("user", loggedUser);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/changeEmail", method = RequestMethod.POST)
+    public ModelAndView changeEmail(@Valid User user, BindingResult result, HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (result.hasErrors()) {
+            modelAndView.setViewName("/form/changeEmail");
+            return modelAndView;
         }
+        session.setAttribute("loggedUser", user);
+        userRepository.save(user);
+        modelAndView.setViewName("userEditPanel");
+        modelAndView.addObject("emailChangeMessage", "E-mail changed");
         return modelAndView;
     }
 

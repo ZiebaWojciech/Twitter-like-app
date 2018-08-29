@@ -1,5 +1,10 @@
 package pl.coderslab.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import pl.coderslab.service.UserService;
+import pl.coderslab.validator.UniqueEmail;
+import pl.coderslab.validator.UniqueUsername;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -14,6 +19,7 @@ public class User {
     private Integer id;
 
     @NotNull
+    @UniqueUsername
     private String username;
 
     @NotNull
@@ -21,6 +27,7 @@ public class User {
 
     @NotNull
     @Email
+    @UniqueEmail
     private String email;
 
     @OneToMany(mappedBy = "receiver")
@@ -90,7 +97,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+            this.email = email;
     }
 
     public List<Message> getReceivedMessages() {

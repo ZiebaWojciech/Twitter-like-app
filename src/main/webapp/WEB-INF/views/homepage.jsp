@@ -25,7 +25,7 @@
                 </div>
                 <%--@elvariable id="tweet" type="pl.coderslab.entity.Tweet"--%>
                 <c:forEach items="${allTweets}" var="tweet">
-                    <div class="col-md-4" style="word-break: break-all">
+                    <div class="col-md-4 alert alert-dark" style="word-break: break-all">
                         <h2>${tweet.text}</h2>
                         <h3> by: <a href="/user/${tweet.user.id}/info">${tweet.user.username}</a></h3>
                         <p><em>${tweet.created}</em></p>

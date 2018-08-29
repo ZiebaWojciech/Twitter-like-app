@@ -85,14 +85,14 @@
             </c:choose>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search user/tweets" name="searchPhrase" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <c:if test="${not empty loggedUser}">
             <div class="text-white">
                 You're logged as: ${loggedUser.username}
-                <a class="nav-item" href="/logout">
+                <a class="nav-item" href="/user/logout">
                     <span data-feather="log-out"></span>
                     Logout</a>
             </div>

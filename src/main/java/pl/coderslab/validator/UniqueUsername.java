@@ -1,7 +1,5 @@
 package pl.coderslab.validator;
 
-import pl.coderslab.entity.User;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
@@ -9,11 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UniqueEmailValidator.class)
+@Constraint(validatedBy = UniqueUsernameValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueEmail {
-    String message() default "E-mail exists";
+public @interface UniqueUsername {
+    String message() default "Username already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

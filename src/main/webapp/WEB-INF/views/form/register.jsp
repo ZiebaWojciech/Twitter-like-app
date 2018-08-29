@@ -21,19 +21,21 @@
 <%--@elvariable id="user" type="pl.coderslab.entity.User"--%>
 <form:form class="form-signin" method="post" action="/register" modelAttribute="user">
 <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+<div class="badge badge-warning">
     <form:errors path="*"/>
+</div>
 <table>
     <tr>
         <td> Username:</td>
-        <td><form:input path="username"/></td>
+        <td><form:input path="username" required="true"/></td>
     </tr>
     <tr>
         <td> E-mail:</td>
-        <td><form:input path="email"/></td>
+        <td><form:input path="email" required="true"/></td>
     </tr>
     <tr>
         <td> Password :</td>
-        <td><form:password path="password"/></td>
+        <td><form:password path="password" required="true"/></td>
     </tr>
     <tr>
         <td colspan="2">
