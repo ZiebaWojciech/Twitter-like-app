@@ -73,7 +73,6 @@ public class HomepageController {
                 session.setAttribute("loggedUser", userToCheck);
                 return new ModelAndView("redirect:/");
             }
-            //TODO different view for login/logout/registration success?
         }
         return new ModelAndView("/form/login", "loginFailure", "Something went wrong. Try again");
     }

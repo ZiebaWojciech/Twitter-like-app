@@ -17,7 +17,9 @@
     <!-- Custom styles for this template -->
     <link type="text/css" href="/resources/bootstrap/jumbotron.css" rel="stylesheet">
     <style>
-        textarea{width: 100%}
+        textarea {
+            width: 100%
+        }
     </style>
 </head>
 
@@ -65,12 +67,12 @@
                 </c:when>
                 <c:when test="${empty loggedUser}">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown"
                            aria-haspopup="true"
                            aria-expanded="false">
                             <span data-feather="user"></span>
                             Your profile</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="dropdown-menu" aria-labelledby="dropdown02">
                             <a class="dropdown-item" href="/login">
                                 <span data-feather="log-in"></span>
                                 Login</a>
@@ -82,10 +84,21 @@
                 </c:when>
             </c:choose>
         </ul>
+
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <c:if test="${not empty loggedUser}">
+            <div class="text-white">
+                You're logged as: ${loggedUser.username}
+                <a class="nav-item" href="/logout">
+                    <span data-feather="log-out"></span>
+                    Logout</a>
+            </div>
+
+        </c:if>
+
     </div>
 </nav>
 </html>
