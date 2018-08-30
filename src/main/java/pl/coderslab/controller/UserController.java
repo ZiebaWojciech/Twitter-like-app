@@ -31,7 +31,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("userInfo");
         modelAndView.addObject("user", userRepository.getOne(id));
-        modelAndView.addObject("userTweets", tweetRepository.findAllByUserId(id));
+        modelAndView.addObject("userTweets", tweetRepository.findAllByUserIdOrderByCreatedDesc(id));
         modelAndView.addObject("message", new Message());
         return modelAndView;
     }
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView userPanel(@SessionAttribute("loggedUser") User loggedUser) {
+    public ModelAndView userPanel() {
         return new ModelAndView("userEditPanel");
     }
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)

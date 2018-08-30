@@ -10,7 +10,7 @@
                 <h2>User: ${loggedUser.username}</h2>
             </div>
             <div class="card-body" style="word-break: break-all">
-                <p>You tweeted so far ${loggedUser.tweets.size()} time(s)</p>
+                <p>You tweeted ${loggedUser.tweets.size()} time(s) so far</p>
                 <p>E-mail: ${loggedUser.email}  </p>
                 <div class="alert-warning text-center">
                     <c:out value="${emailChangeMessage}" default=""/>

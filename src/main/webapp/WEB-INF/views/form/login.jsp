@@ -7,8 +7,10 @@
 <body class="text-center">
 <form class="form-signin" method="post" action="/login">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <div class="badge-warning">
+        <c:out value="${loginFailure}" default=""/>
+    </div>
     <label for="inputUsername" class="sr-only">Email address</label>
-
     <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>

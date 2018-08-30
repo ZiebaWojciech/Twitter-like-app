@@ -9,7 +9,7 @@ import pl.coderslab.entity.User;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Integer> {
-    List<Message> findAllBySender(User sender);
-    List<Message> findAllByReceiver(User receiver);
+    List<Message> findAllBySenderOrderBySentTimeDesc(User sender);
+    List<Message> findAllByReceiverOrderBySentTimeDesc(User receiver);
 
 }

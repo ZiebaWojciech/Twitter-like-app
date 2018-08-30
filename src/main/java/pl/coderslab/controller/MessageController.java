@@ -38,34 +38,36 @@ public class MessageController {
     @RequestMapping(value = "/inbox", method = RequestMethod.GET)
     public ModelAndView inbox(@SessionAttribute("loggedUser") User loggedUser) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("receivedMessages", messageRepository.findAllByReceiver(loggedUser));
-        modelAndView.addObject("receivers", userRepository.findAllExceptLogged(loggedUser));
+        modelAndView.addObject("receivedMessages", messageRepository.findAllByReceiverOrderBySentTimeDesc(loggedUser));
         modelAndView.setViewName("inbox");
         return modelAndView;
     }
 
     @RequestMapping(value = "/sent", method = RequestMethod.GET)
     public ModelAndView sent(@SessionAttribute("loggedUser") User loggedUser) {
-        return new ModelAndView("sent", "sentMessages", messageRepository.findAllBySender(loggedUser));
+        return new ModelAndView("sent", "sentMessages", messageRepository.findAllBySenderOrderBySentTimeDesc(loggedUser));
     }
 
     @RequestMapping(value = "/{id}/new", method = RequestMethod.GET)
     public ModelAndView sendMessageForm(@PathVariable Integer id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/form/message");
-        modelAndView.addObject("messageToSend", new Message());
+        modelAndView.addObject("message", new Message());
         modelAndView.addObject("receiver", userRepository.getOne(id));
         return modelAndView;
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public ModelAndView sendMessage(@Valid Message message, BindingResult result,
-                                    @SessionAttribute("loggedUser") User loggedUser){
+    public ModelAndView sendMessage(@Valid Message message, BindingResult result){
+        ModelAndView modelAndView = new ModelAndView();
         if(result.hasErrors()){
-            return new ModelAndView("/form/message");
+            modelAndView.addObject("receiver", message.getReceiver());
+            modelAndView.setViewName("/form/message");
+            return modelAndView;
         }
         messageRepository.save(message);
-        return new ModelAndView("redirect:inbox");
+        modelAndView.setViewName("redirect:/message/inbox");
+        return modelAndView;
     }
 
 

@@ -16,10 +16,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findAllByUsernameContaining(String phrase);
 
     User findAllByEmail(String email);
-
-    @Query("SELECT u FROM User u WHERE u <> :loggedUser")
-    List<User> findAllExceptLogged(@Param("loggedUser") User loggedUser);
-
-
 }
 

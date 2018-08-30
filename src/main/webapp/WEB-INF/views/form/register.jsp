@@ -21,7 +21,7 @@
 <%--@elvariable id="user" type="pl.coderslab.entity.User"--%>
 <form:form class="form-signin" method="post" action="/register" modelAttribute="user">
 <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
-<div class="badge badge-warning">
+<div class="badge-warning">
     <form:errors path="*"/>
 </div>
 <table>

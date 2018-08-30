@@ -8,7 +8,7 @@
             <%--@elvariable id="tweet" type="pl.coderslab.entity.Tweet"--%>
             <div class="alert alert-dark" style="word-break: break-all">
                 <h2>${tweet.text}</h2>
-                <p>by: <a href="/user/${tweet.user.id}">${tweet.user.username}</a></p>
+                <p>by: <a href="/user/${tweet.user.id}/info">${tweet.user.username}</a></p>
                 <p>Created: <em>${tweet.created.toGMTString()}</em></p>
             </div>
         </div>
