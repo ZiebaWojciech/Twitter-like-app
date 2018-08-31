@@ -24,8 +24,6 @@ public class User {
     private String username;
 
     @NotNull
-    @NotBlank
-//TODO wprowadzic zmiany w formularzu
     private String password;
 
     @NotNull
